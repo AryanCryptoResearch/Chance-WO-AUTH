@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Regression Calculator</title>
+</head>
+<body>
+    <h1>Regression Calculator</h1>
+    <form id="paramsForm">
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required><br><br>
+
+        <label for="asset">Asset:</label>
+        <input type="number" id="asset" name="asset" required><br><br>
+
+        <label for="financial">Financial:</label>
+        <input type="number" id="financial" name="financial" required><br><br>
+
+        <input type="submit" value="Calculate">
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        const form = document.getElementById('paramsForm');
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const response = await fetch('/api/params/', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            const result = data.result;
+            const resultElement = document.getElementById('result');
+            resultElement.innerHTML = `The result is ${result}`;
+        });
+    </script>
+</body>
+</html>
